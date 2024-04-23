@@ -25,10 +25,6 @@ function ProfileForm() {
         optional: ""
     })
 
-    const printPersonData = () => {
-        console.log(personData);
-    }
-
     const updatePerson = (field, value) => {
         setPersonData(prevData => ({
             ...prevData,
@@ -86,7 +82,7 @@ function ProfileForm() {
                     <SecondStageProfile updatePersonData={updatePerson} changeIndexStage={changeIndexStage}></SecondStageProfile>
                 </Tab.Panel>
                 <Tab.Panel>
-                    <ThirdStageProfile personData={personData} updatePersonData={updatePerson} printPersonData={printPersonData}></ThirdStageProfile>
+                    <ThirdStageProfile personData={personData} updatePersonData={updatePerson}></ThirdStageProfile>
                 </Tab.Panel>
             </Tab.Panels>
         </Tab.Group>
