@@ -1,6 +1,6 @@
 import RegistrationForm from "./RegistrationForm";
-import logo from "../logo.svg"
-import largeClose from "../large-close.svg"
+import logo from "../recourses/logo.svg"
+import largeClose from "../recourses/large-close.svg"
 import { useState } from "react";
 import ProfileForm from "./ProfileForm";
 

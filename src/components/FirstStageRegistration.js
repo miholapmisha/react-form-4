@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Combobox } from '@headlessui/react'
 import { useForm } from 'react-hook-form';
-import phone_data from '../phone_codes.json'
-import lock from '../lock.svg'
-import greyClose from '../grey-close.svg'
-import redClose from '../red-close.svg'
-import dropDown from '../drop-down.svg'
+import phone_data from '../recourses/phone_codes.json'
+import lock from '../recourses/lock.svg'
+import greyClose from '../recourses/grey-close.svg'
+import redClose from '../recourses/red-close.svg'
+import dropDown from '../recourses/drop-down.svg'
 import RegistrationHeader from "./RegistrationHeader";
 
 function FirstStageRegistration({ updateIndexStageOn, updateNumber, phoneNumber }) {

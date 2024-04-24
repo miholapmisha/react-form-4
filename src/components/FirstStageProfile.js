@@ -1,25 +1,22 @@
 import HeaderProfileForm from "./HeaderProfileForm";
-import checkMark from "../check-mark.svg";
-import dropDown from "../drop-down.svg";
-import redClose from "../red-close.svg";
-import { useState, useEffect, useRef } from "react";
+import checkMark from "../recourses/check-mark.svg";
+import dropDown from "../recourses/drop-down.svg";
+import redClose from "../recourses/red-close.svg";
+import { useState, useEffect } from "react";
 import { Combobox } from '@headlessui/react'
 import { useForm } from 'react-hook-form';
 
 function FirstStageProfile({ updatePersonData, changeIndexStage }) {
 
-    const [openCityOptions, setCityOpenOptions] = useState(false);
-    const [openCountryOptions, setCountryOpenOptions] = useState(false);
     const [countries, setCountries] = useState([]);
     const [availableCities, setAvailableCities] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState("");
+    const [selectedCountry, setSelectedCountry] = useState("Loading...");
     const [selectedCity, setSelectedCity] = useState("");
-    const countryInputRef = useRef(null);
-    const cityInputRef = useRef(null);
     const [countryQuery, setCountryQuery] = useState('');
     const [cityQuery, setCityQuery] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState("2024-01-01");
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [isLoading, setIsLoading] = useState(true);
 
 
     const filteredCountries =
@@ -46,50 +43,18 @@ function FirstStageProfile({ updatePersonData, changeIndexStage }) {
         setAvailableCities(citiesByCoutries);
         setSelectedCity(citiesByCoutries[0]);
 
-    }, [selectedCountry]);
+    }, [selectedCountry, countries]);
 
 
     useEffect(() => {
-        fetchData();
-        const handleOutsideClickForCountryInput = (event) => {
-            if (countryInputRef.current && !countryInputRef.current.contains(event.target)) {
-                setCountryOpenOptions(false);
-            }
-        }
-
-        const handleOutsideClickForCityInput = (event) => {
-            if (cityInputRef.current && !cityInputRef.current.contains(event.target)) {
-                setCityOpenOptions(false);
-            }
-        }
-        document.addEventListener('click', handleOutsideClickForCountryInput);
-        document.addEventListener('click', handleOutsideClickForCityInput);
-
-        return () => {
-            document.removeEventListener('click', handleOutsideClickForCountryInput);
-            document.removeEventListener('click', handleOutsideClickForCityInput);
-        };
-
-    }, [])
-
-    const fetchData = () => {
         fetch('https://countriesnow.space/api/v0.1/countries')
             .then(response => response.json())
             .then((result) => {
                 setCountries(result.data);
-                console.log(result.data[0].country);
                 setSelectedCountry(result.data[0].country);
+                setIsLoading(false);
             });
-    }
-
-    const toggleDropdown = (entity) => {
-        if (entity === "country") {
-            setCountryOpenOptions(!openCountryOptions);
-        } else if (entity === "city") {
-            console.log(entity);
-            setCityOpenOptions(!openCityOptions);
-        }
-    };
+    }, [])
 
     return (
         <div className="w-[456px] space-y-8">
@@ -147,41 +112,42 @@ function FirstStageProfile({ updatePersonData, changeIndexStage }) {
                         <div className="w-[180px]">
                             <div className="font-thin text-[14px]">Place of birth</div>
                             <div className="flex flex-col space-y-4">
-                                <Combobox value={selectedCountry} onChange={(selectedOption) => {
-                                    setSelectedCountry(selectedOption);
-                                }}>
-                                    <div className="h-[44px] border-b-[1px] border-[#E2E4E5]">
-                                        <div className="flex h-[100%] ">
-                                            <Combobox.Input className="w-[170px] outline-none px-[16px]" onChange={(event) => { setCountryQuery(event.target.value); }} />
-                                            <img src={dropDown} ref={countryInputRef} onClick={() => toggleDropdown("country")}></img>
+                                {!isLoading ?
+                                    <Combobox value={selectedCountry} onChange={(selectedOption) => {
+                                        setSelectedCountry(selectedOption);
+                                    }}>
+                                        <div className="h-[44px] border-b-[1px] border-[#E2E4E5]">
+                                            <div className="flex h-[100%] ">
+                                                <Combobox.Input className="w-[170px] outline-none px-[16px]" onChange={(event) => { setCountryQuery(event.target.value); }} />
+                                                <Combobox.Button> <img src={dropDown}></img> </Combobox.Button>
+                                            </div>
+                                            <Combobox.Options className=" cursor-pointer absolute mt-1 max-h-60 w-[170px] overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                                {filteredCountries.map((data) => (
+                                                    <Combobox.Option className="border-y-[1px] py-[10px] text-[16px] text-thin pl-[15px]" key={data.country} value={data.country}>
+                                                        {data.country}
+                                                    </Combobox.Option>
+                                                ))}
+                                            </Combobox.Options>
                                         </div>
-                                        <Combobox.Options static={openCountryOptions} className=" cursor-pointer absolute mt-1 max-h-60 w-[170px] overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                            {filteredCountries.map((data) => (
-                                                <Combobox.Option className="border-y-[1px] py-[10px] text-[16px] text-thin pl-[15px]" key={data.country} value={data.country}>
-                                                    {data.country}
-                                                </Combobox.Option>
-                                            ))}
-                                        </Combobox.Options>
-                                    </div>
 
-                                </Combobox>
+                                    </Combobox> : <div className="h-[44px] flex items-center pl-[15px] border-b-[1px] border-[#E2E4E5]"> <p>Loading...</p> </div>}
                             </div>
-
-                            <Combobox value={selectedCity} onChange={(selectedOption) => {
-                                setSelectedCity(selectedOption);
-                            }}>
-                                <div className="h-[44px] border-b-[1px] border-[#E2E4E5] flex items-center">
-                                    <Combobox.Input className="w-[170px] outline-none px-[16px]" onChange={(event) => { setCityQuery(event.target.value); }}></Combobox.Input>
-                                    <img ref={cityInputRef} src={dropDown} onClick={() => toggleDropdown("city")}></img>
-                                </div>
-                                <Combobox.Options static={openCityOptions} className=" cursor-pointer absolute mt-1 max-h-60 w-[170px] overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                    {filteredCities.map((city, index) => (
-                                        <Combobox.Option className="border-y-[1px] py-[10px] text-[16px] text-thin pl-[15px]" key={index} value={city}>
-                                            {city}
-                                        </Combobox.Option>
-                                    ))}
-                                </Combobox.Options>
-                            </Combobox>
+                            {!isLoading ?
+                                <Combobox value={selectedCity} onChange={(selectedOption) => {
+                                    setSelectedCity(selectedOption);
+                                }}>
+                                    <div className="h-[44px] border-b-[1px] border-[#E2E4E5] flex items-center">
+                                        <Combobox.Input className="w-[170px] outline-none px-[16px]" onChange={(event) => { setCityQuery(event.target.value); }}></Combobox.Input>
+                                        <Combobox.Button> <img src={dropDown}></img> </Combobox.Button>
+                                    </div>
+                                    <Combobox.Options className=" cursor-pointer absolute mt-1 max-h-60 w-[170px] overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        {filteredCities.map((city, index) => (
+                                            <Combobox.Option className="border-y-[1px] py-[10px] text-[16px] text-thin pl-[15px]" key={index} value={city}>
+                                                {city}
+                                            </Combobox.Option>
+                                        ))}
+                                    </Combobox.Options>
+                                </Combobox> : <div className="h-[44px] flex items-center pl-[15px] border-b-[1px] border-[#E2E4E5]"> <p>Loading...</p> </div>}
                         </div>
                     </div>
 

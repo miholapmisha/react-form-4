@@ -1,11 +1,11 @@
 import HeaderProfileForm from "./HeaderProfileForm";
-import letter from "../letter.svg";
-import phone from "../phone.svg";
-import dropDown from "../drop-down.svg";
-import skype from "../skype.svg";
-import facebook from "../facebook.svg";
-import plus from "../plus.svg";
-import redClose from "../red-close.svg";
+import letter from "../recourses/letter.svg";
+import phone from "../recourses/phone.svg";
+import dropDown from "../recourses/drop-down.svg";
+import skype from "../recourses/skype.svg";
+import facebook from "../recourses/facebook.svg";
+import plus from "../recourses/plus.svg";
+import redClose from "../recourses/red-close.svg";
 import { useForm } from 'react-hook-form';
 
 function SecondStageProfile({ updatePersonData, changeIndexStage }) {
@@ -20,7 +20,7 @@ function SecondStageProfile({ updatePersonData, changeIndexStage }) {
                 updatePersonData("phoneNuber", data.inputPhoneNumberBody);
                 updatePersonData("facebookProfile", data.facebook);
                 updatePersonData("skypeProfile", data.skype);
-                
+
                 changeIndexStage(1);
             })}>
                 <div className="w-[100%] p-8 border-[1px] border-[#E2E4E5] space-y-8 rounded-[8px]">
@@ -68,22 +68,22 @@ function SecondStageProfile({ updatePersonData, changeIndexStage }) {
                         <div className="flex justify-between">
                             <div className=" h-[44px] w-[188px] border-b-[1px] border-[#E2E4E5] flex items-center pr-[10px]">
                                 <img className="size-[18px]" src={skype}></img>
-                                <input {...register("skype")} value="Skype" className="w-[100%] outline-none px-[16px]"></input>
+                                <input value="Skype" className="w-[100%] outline-none px-[16px]"></input>
                                 <img src={dropDown}></img>
                             </div>
                             <div className="focus-within:border-[#007AFF] h-[44px] w-[188px] border-b-[1px] border-[#E2E4E5] flex items-center">
-                                <input placeholder="@profile" className="w-[100%] outline-none px-[16px]"></input>
+                                <input {...register("skype")} placeholder="@profile" className="w-[100%] outline-none px-[16px]"></input>
                             </div>
                         </div>
 
                         <div className="flex justify-between">
                             <div className=" h-[44px] w-[188px] border-b-[1px] border-[#E2E4E5] flex items-center pr-[10px]">
                                 <img className="size-[18px]" src={facebook}></img>
-                                <input {...register("facebook")} value="Facebook" className="w-[100%] outline-none px-[16px]"></input>
+                                <input defaultValue="Facebook" className="w-[100%] outline-none px-[16px]"></input>
                                 <img src={dropDown}></img>
                             </div>
                             <div className="focus-within:border-[#007AFF] h-[44px] w-[188px] border-b-[1px] border-[#E2E4E5] flex items-center">
-                                <input placeholder="@profile" className="w-[100%] outline-none px-[16px]"></input>
+                                <input {...register("facebook")} placeholder="@profile" className="w-[100%] outline-none px-[16px]"></input>
                             </div>
                         </div>
 

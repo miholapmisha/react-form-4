@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import RegistrationHeader from "./RegistrationHeader";
-import checkMark from '../check-mark.svg';
-import greenCheckMark from '../green-check-mark.svg'
-import greyEye from '../grey-eye.svg';
-import blueEye from '../blue-eye.svg';
-import redClose from '../red-close.svg';
+import checkMark from '../recourses/check-mark.svg';
+import greenCheckMark from '../recourses/green-check-mark.svg'
+import greyEye from '../recourses/grey-eye.svg';
+import blueEye from '../recourses/blue-eye.svg';
+import redClose from '../recourses/red-close.svg';
 import { useForm } from 'react-hook-form';
 
 function ThirdStageRegistration({ phoneNumber, setCompleted }) {
@@ -18,7 +18,7 @@ function ThirdStageRegistration({ phoneNumber, setCompleted }) {
         if (isPasswordInputFocused) {
             trigger("password");
         }
-    }, [passwordWatch]);
+    }, [passwordWatch, isPasswordInputFocused]);
 
     return (
         <div className="w-[456px] space-y-8">

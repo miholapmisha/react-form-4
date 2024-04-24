@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import pen from '../pen.svg';
-import reload from '../reload.svg';
-import redClose from '../red-close.svg';
+import pen from '../recourses/pen.svg';
+import reload from '../recourses/reload.svg';
+import redClose from '../recourses/red-close.svg';
 import RegistrationHeader from './RegistrationHeader';
 import { useForm } from 'react-hook-form';
 
@@ -80,7 +80,6 @@ function SecondStageRegistration({ updateIndexStageOn, phoneNumber }) {
                                         {...pinRegisters()[index].rest}
                                         onChange={(event) => handleInputChange(event, index)}
                                         ref={(el) => {
-                                            console.log();
                                             pinRegisters()[index].ref(el);
                                             inputRefs.current[index] = el;
                                         }}
